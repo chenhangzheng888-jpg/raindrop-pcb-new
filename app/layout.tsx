@@ -5,7 +5,7 @@ export const metadata = {
   description: 'PCB设计培训、面试题库、实战课程'
 }
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-CN">
       <body>
