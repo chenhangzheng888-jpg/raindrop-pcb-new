@@ -1,56 +1,56 @@
 'use client'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-export default function Login() {
+export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const router = useRouter()
 
-  // 固定管理员账户（硬编码，只有这个能登录）
+  // 固定管理员账号
   const ADMIN_EMAIL = '443905849@qq.com'
   const ADMIN_PASSWORD = 'chz15875539436'
 
-  const handleLogin = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    setError('')
-
-    // 严格校验账户密码
     if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      // 登录成功 → 跳转到后台主页
-      window.location.href = '/'
+      // 用 localStorage 模拟登录状态
+      localStorage.setItem('isAdmin', 'true')
+      router.push('/admin')
     } else {
       setError('邮箱或密码错误')
     }
   }
 
   return (
-    <div style={{ maxWidth: '400px', margin: '5rem auto', padding: '2rem' }}>
-      <h2>管理员登录</h2>
-      <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <div>
-          <label>邮箱</label>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md w-96">
+        <h2 className="text-2xl font-bold mb-6 text-center">管理员登录</h2>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">邮箱</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-3 py-2 border rounded"
             required
-            style={{ width: '100%', padding: '0.5rem', marginTop: '0.3rem' }}
           />
         </div>
-        <div>
-          <label>密码</label>
+        <div className="mb-6">
+          <label className="block text-gray-700 mb-2">密码</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-3 py-2 border rounded"
             required
-            style={{ width: '100%', padding: '0.5rem', marginTop: '0.3rem' }}
           />
         </div>
-        {error && <p style={{ color: 'red', margin: 0 }}>{error}</p>}
         <button
           type="submit"
-          style={{ padding: '0.7rem', backgroundColor: '#0070f3', color: '#fff', border: 'none', borderRadius: '4px' }}
+          className="w-full bg-black text-white py-2 rounded hover:bg-gray-800"
         >
           登录
         </button>
